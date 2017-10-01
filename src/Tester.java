@@ -23,6 +23,19 @@ public class Tester
                 continue;
             }
 
+            HashSet<String> minidict = new HashSet<>();
+            int targetLength = start.length();
+            Iterator dictitr1 = dict.iterator();
+            while(dictitr1.hasNext())
+            {
+                String entry = (String)dictitr1.next();
+                if(entry.length() == targetLength)
+                    minidict.add(entry);
+            }
+            //testing
+            System.out.println(minidict.size());
+
+
             LinkedList usedWords = new LinkedList();
             usedWords.addFront(start);
 
@@ -48,16 +61,19 @@ public class Tester
                     break;
                 }
 
-                Iterator itr = dict.iterator();
-                while(itr.hasNext())
+                Iterator minidictitr1 = minidict.iterator();
+                while(minidictitr1.hasNext())
                 {
-                    String nextWord = (String)itr.next();
+                    String nextWord = (String)minidictitr1.next();
                     if(!usedWords.contains(nextWord) && oneCharDiff((String)baseStack.peek(), nextWord))
                     {
                         StackLL temp = baseStack.deepCopy();
                         temp.push(nextWord);
                         stacks.enqueue(temp);
                         usedWords.addFront(nextWord);
+
+                        //testing
+                        System.out.println(stacks);
                     }
                 }
             }
