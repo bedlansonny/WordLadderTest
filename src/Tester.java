@@ -14,8 +14,8 @@ public class Tester
         Scanner in = new Scanner(new File("input.txt"));
         while(in.hasNext())
         {
-            String start = in.next();
-            String finish = in.next();
+            String start = in.next().trim();
+            String finish = in.next().trim();
 
             if(start.length() != finish.length() || !dict.contains(start) || !dict.contains(finish))
             {
@@ -33,7 +33,7 @@ public class Tester
                     minidict.add(entry);
             }
             //testing
-            System.out.println(minidict.size());
+            //System.out.println(minidict.size());
 
 
             LinkedList usedWords = new LinkedList();
@@ -61,7 +61,34 @@ public class Tester
                     break;
                 }
 
-                Iterator minidictitr1 = minidict.iterator();
+
+                //instead of searching entire dictionary for string w onechardiff,
+                //see if dict contains
+                char[] topWordArr = ((String)baseStack.peek()).toCharArray();
+                for(int repl = 0; repl < topWordArr.length; repl++)
+                {
+                    for(int c = 97; c < 123; c++)
+                    {
+                        if(c == topWordArr[repl])
+                            continue;
+                        char[] tempWordArr = ((String)baseStack.peek()).toCharArray();
+                        tempWordArr[repl] = (char)c;
+                        String tempWord = String.valueOf(tempWordArr);
+
+                        if(!usedWords.contains(tempWord) && minidict.contains(tempWord))
+                        {
+                            StackLL tempStack = baseStack.deepCopy();
+                            tempStack.push(tempWord);
+                            stacks.enqueue(tempStack);
+                            usedWords.addFront(tempWord);
+
+                            //System.out.println(stacks);
+                        }
+
+                    }
+                }
+
+                /*
                 while(minidictitr1.hasNext())
                 {
                     String nextWord = (String)minidictitr1.next();
@@ -73,9 +100,10 @@ public class Tester
                         usedWords.addFront(nextWord);
 
                         //testing
-                        System.out.println(stacks);
+                        //System.out.println(stacks);
                     }
                 }
+                */
             }
         }
 
